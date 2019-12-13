@@ -9,21 +9,21 @@ import javax.swing.JTextField;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-public class HiloRecibir implements Runnable, ListDataListener{
+public class HiloRecibir extends Thread{
     private DefaultListModel<String> charla; //Lista en la que se guarda toda la charla
     private Socket socket; //Socket al que está conectado el cliente
     private DataInputStream entrada; // Para lectura de datos en el socket
     private DataOutputStream salida; // Para escritura de datos en el socket
-    public JTextField texto;
     public JTextArea textArea;
+    public JTextField texto;
 
-    public HiloRecibir(DefaultListModel charla, Socket socket){
+    public HiloRecibir(DataInputStream entrada,DataOutputStream salida,JTextArea textArea,JTextField texto){
         this.charla = charla;
         this.socket = socket;
         try{
             entrada = new DataInputStream(socket.getInputStream());
             salida = new DataOutputStream(socket.getOutputStream());
-            charla.addListDataListener(this);
+            charla.addListDataListener((ListDataListener) this);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -44,7 +44,6 @@ public class HiloRecibir implements Runnable, ListDataListener{
         }
 	}
 
-	@Override
 	public void intervalAdded(ListDataEvent e) {
 		String texto = (String) charla.getElementAt(e.getIndex0()); //Obtener el texto del chat
         try{
@@ -54,8 +53,6 @@ public class HiloRecibir implements Runnable, ListDataListener{
         }
 	}
 
-	@Override
 	public void intervalRemoved(ListDataEvent e) {}
-	@Override
 	public void contentsChanged(ListDataEvent e) {}
 }

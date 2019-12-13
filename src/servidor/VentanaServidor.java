@@ -1,12 +1,12 @@
 package servidor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaServidor extends JFrame{
 	
@@ -48,9 +48,27 @@ public class VentanaServidor extends JFrame{
 		getContentPane().add(btnSalir);
 		
 		//Iniciar el hilo del servidor
-		servidor = new Servidor();
+		servidor = new Servidor(textArea, textField);
 		servidor.start();
 		
+		initListeners();
+	}
+	
+	private void initListeners() {
+		btnSalir.addActionListener(new ListenerBotones());
+	}
+
+	private class ListenerBotones implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String accion = e.getActionCommand();
+			switch (accion) {
+			case "Salir":
+				//Stop Thread *- Parar los hilos
+				System.exit(getDefaultCloseOperation());
+				break;
+			}
+		}
 	}
 
 	public static void main(String[] args) {
