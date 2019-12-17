@@ -1,5 +1,6 @@
 package servidor;
 
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -12,8 +13,8 @@ public class VentanaServidor extends JFrame{
 	
 	private static final long serialVersionUID = 6289509716153512736L;
 	
-	private JTextField textField;
-	private JTextArea textArea;
+	private static JTextField textField;
+	private static JTextArea textArea;
 	private final JButton btnSalir;
 	private JPanel panel;
 	private Servidor servidor;
@@ -39,11 +40,6 @@ public class VentanaServidor extends JFrame{
 		getContentPane().add(textArea);
 		
 		btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(getDefaultCloseOperation());
-			}
-		});
 		btnSalir.setBounds(170, 240, 100, 20);
 		getContentPane().add(btnSalir);
 		
@@ -73,6 +69,6 @@ public class VentanaServidor extends JFrame{
 
 	public static void main(String[] args) {
 		new VentanaServidor().setVisible(true);
+		new Servidor(textArea, textField);
 	}
-
 }
